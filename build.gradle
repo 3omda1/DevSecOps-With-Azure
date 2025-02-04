@@ -29,13 +29,19 @@ tasks.jacocoTestReport {
         html.enabled = true
     }
 }
+bootJar {
+    enabled = true
+}
 
+jar {
+    enabled = false
+}
 sonarqube {
     properties {
         property "sonar.projectKey", "3omda1_DevSecOps-With-Azure"
-        property "sonar.organization", "3omda1" // Ensure no hidden characters
+        property "sonar.organization", "3omda1"
         property "sonar.host.url", "https://sonarcloud.io"
-        property "sonar.login", "your-sonar-token"
+        property "sonar.login", "4f61374d9dce0c8447de2bcb062f83df66958463"
         property "sonar.java.binaries", "$buildDir/classes"
         property "sonar.sources", "src/main/java"
         property "sonar.tests", "src/test/java"
