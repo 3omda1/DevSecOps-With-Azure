@@ -5,6 +5,9 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  SONAR_TOKEN: $(SONAR_TOKEN)
+  
 stages:
   - stage: Lint
     jobs:
@@ -34,3 +37,5 @@ stages:
               echo "Running Jacoco testing"
               ./gradlew test jacocoTestReport sonar 
             displayName: 'Integrate SAST using SonarCloud to populate code coverage'
+            env:
+              SONAR_TOKEN: $(SONAR_TOKEN) 
