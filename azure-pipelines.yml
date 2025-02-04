@@ -14,7 +14,7 @@ variables:
 stages:
   - stage: Lint
     jobs:
-      - job: LintCode
+      - job: Lint_Code
         steps:
           - script: |
               echo "Lintinggg ..."
@@ -23,7 +23,7 @@ stages:
 
   - stage: UnitTest
     jobs:
-      - job: RunUnitTests
+      - job: Run_Unit_Tests
         steps:
           - script: |
               echo "Running unit testing"
@@ -43,3 +43,13 @@ stages:
             displayName: 'Integrate SAST using SonarCloud to populate code coverage'
             env:
               SONAR_TOKEN: $(SONAR_TOKEN) 
+  - stage: BuildingPushing
+    jobs:
+      - job: Build_Push_Docker_Image
+        steps:
+        - task: Docker@2
+          inputs:
+            containerRegistry: 'docker-conn'
+            repository: 'ahmedemad111/bank-misr'
+            command: 'buildAndPush'
+            Dockerfile: '**/Dockerfile'
