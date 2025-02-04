@@ -32,5 +32,5 @@ stages:
           - checkout: self 
           - script: |
               echo "Running Jacoco testing"
-              ./gradlew test jacocoTestReport sonar -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.organization=3omda1‬‏ -Dsonar.projectKey=3omda1_DevSecOps-With-Azure -Dsonar.token=4f61374d9dce0c8447de2bcb062f83df66958463
+              ./gradlew test jacocoTestReport sonar 
             displayName: 'Integrate SAST using SonarCloud to populate code coverage'
