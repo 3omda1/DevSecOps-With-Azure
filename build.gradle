@@ -1,7 +1,9 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.5'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
+    id 'jacoco'
+    id 'org.sonarqube' version '3.5.0.2730'
 }
 
 group = 'com.example'
@@ -9,17 +11,23 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required = true
+        html.enabled = true
+    }
 }
 bootJar {
     enabled = true
@@ -27,4 +35,17 @@ bootJar {
 
 jar {
     enabled = false
+}
+sonarqube {
+    properties {
+        property "sonar.projectKey", "3omda1_DevSecOps-With-Azure"
+        property "sonar.organization", "3omda1"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.token", System.getenv("SONAR_TOKEN")
+        property "sonar.java.binaries", "$buildDir/classes"
+        property "sonar.sources", "src/main/java"
+        property "sonar.tests", "src/test/java"
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.jacoco.reportPaths", "$buildDir/reports/jacoco/test/jacocoTestReport.xml"
+    }
 }
