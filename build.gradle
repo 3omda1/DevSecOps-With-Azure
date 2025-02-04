@@ -23,7 +23,7 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-jacocoTestReport {
+tasks.jacocoTestReport {
     reports {
         xml.required = true
         html.enabled = true
@@ -33,7 +33,7 @@ jacocoTestReport {
 sonarqube {
     properties {
         property "sonar.projectKey", "3omda1_DevSecOps-With-Azure"
-        property "sonar.organization", "‪3omda1‬‏"
+        property "sonar.organization", "3omda1" // Ensure no hidden characters
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.login", "your-sonar-token"
         property "sonar.java.binaries", "$buildDir/classes"
@@ -42,3 +42,4 @@ sonarqube {
         property "sonar.java.coveragePlugin", "jacoco"
         property "sonar.jacoco.reportPaths", "$buildDir/reports/jacoco/test/jacocoTestReport.xml"
     }
+}
