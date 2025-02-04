@@ -38,6 +38,7 @@ stages:
           - checkout: self 
           - script: |
               echo "Running Jacoco testing"
+              export SONAR_TOKEN=$(SONAR_TOKEN)
               ./gradlew test jacocoTestReport sonar 
             displayName: 'Integrate SAST using SonarCloud to populate code coverage'
             env:
