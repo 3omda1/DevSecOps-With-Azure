@@ -1,9 +1,9 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.5'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id 'java'
-        id "jacoco"
-        id "org.sonarqube" version "3.5.0.2730”
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
+    id 'jacoco'
+    id 'org.sonarqube' version '3.5.0.2730'
 }
 
 group = 'com.example'
@@ -11,18 +11,18 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
- 
+
 jacocoTestReport {
     reports {
         xml.required = true
