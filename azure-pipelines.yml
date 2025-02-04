@@ -30,5 +30,5 @@ stages:
         steps:
           - script: |
               echo "Running Jacoco testing"
-              ./gradlew test jacocoTestReport sonarqube
+              ./gradlew test jacocoTestReport sonar
             displayName: 'Integrate SAST using SonarCloud to populate code coverage'
