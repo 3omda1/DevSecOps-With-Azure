@@ -1,0 +1,55 @@
+trigger:
+- main
+#- azure-pipelines
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+- group: "SECURE_TOKENS"
+- name: SONAR_TOKEN
+  value: $[variables.SONAR_TOKEN]
+
+  
+stages:
+  - stage: Lint
+    jobs:
+      - job: Lint_Code
+        steps:
+          - script: |
+              echo "Lintinggg ..."
+              ./gradlew check
+            displayName: 'Code validation using Gradle'
+
+  - stage: UnitTest
+    jobs:
+      - job: Run_Unit_Tests
+        steps:
+          - script: |
+              echo "Running unit testing"
+              ./gradlew test
+            displayName: 'Code testing using Gradle'
+            
+  - stage: SonarQube
+    jobs:
+      - job: Sonar_SAST_Scan_Job
+        container: openjdk:18-jdk-slim
+        steps:
+          - checkout: self 
+          - script: |
+              echo "Running Jacoco testing"
+              export SONAR_TOKEN=$(SONAR_TOKEN)
+              ./gradlew test jacocoTestReport sonar 
+            displayName: 'Integrate SAST using SonarCloud to populate code coverage'
+            env:
+              SONAR_TOKEN: $(SONAR_TOKEN) 
+  - stage: BuildingPushing
+    jobs:
+      - job: Build_Push_Docker_Image
+        steps:
+        - task: Docker@2
+          inputs:
+            containerRegistry: 'docker-conn'
+            repository: 'ahmedemad111/bank-misr'
+            command: 'buildAndPush'
+            Dockerfile: '**/Dockerfile'
