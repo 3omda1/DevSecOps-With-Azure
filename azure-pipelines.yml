@@ -23,3 +23,12 @@ stages:
               echo "Running unit testing"
               ./gradlew test
             displayName: 'Code testing using Gradle'
+            
+  - stage: SonarQube
+    jobs:
+      - job: Sonar_SAST_Scan_Job
+        steps:
+          - script: |
+              echo "Running Jacoco testing"
+              gradle test jacocoTestReport sonarqube
+            displayName: 'Integrate SAST using SonarCloud to populate code coverage'
