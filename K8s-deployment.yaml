@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: spring-boot-app
-          image: ahmedemad111/bank-misr
+          image: ahmedemad111/bank-misr:30
           ports:
             - containerPort: 8080
 ---
