@@ -6,7 +6,10 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  SONAR_TOKEN: $(SONAR_TOKEN)
+- group: "SECURE_TOKENS"
+- name: SONAR_TOKEN
+  value: $[variables.SONAR_TOKEN]
+
   
 stages:
   - stage: Lint
