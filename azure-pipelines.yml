@@ -9,14 +9,21 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- task: Gradle@3
-  inputs:
-    gradleWrapperFile: 'gradlew'  # Path to your Gradle wrapper
-    tasks: 'build'  # Replace with the tasks you want to run
-    options: '-Xmx3072m' 
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'  # Updated pattern for test result files
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'  # Replace with your JDK version
-    jdkArchitectureOption: 'x64'
+stages:
+  - stage: Lint
+    jobs:
+      - job: LintCode
+        steps:
+          - script: |
+              echo "Lintinggg ..."
+              ./gradlew check
+            displayName: 'Code validation using Gradle'
+
+  - stage: UnitTest
+    jobs:
+      - job: RunUnitTests
+        steps:
+          - script: |
+              echo "Running unit testing"
+              ./gradlew test
+            displayName: 'Code testing using Gradle'
