@@ -2,6 +2,8 @@ plugins {
 	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'java'
+        id "jacoco"
+        id "org.sonarqube" version "3.5.0.2730”
 }
 
 group = 'com.example'
@@ -19,10 +21,6 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-plugins {
-    id "jacoco"
-    id "org.sonarqube" version "3.5.0.2730”
 }
  
 jacocoTestReport {
