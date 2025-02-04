@@ -53,3 +53,29 @@ stages:
             repository: 'ahmedemad111/bank-misr'
             command: 'buildAndPush'
             Dockerfile: '**/Dockerfile'
+  - stage: Deploy2Kubernetes
+    jobs:
+      - job: Deploy_to_development_namespace
+        steps:
+        - task: KubernetesManifest@1
+          inputs:
+            action: 'deploy'
+            connectionType: 'kubernetesServiceConnection'
+            kubernetesServiceConnection: 'eks-conn'
+            namespace: 'development'
+            manifests: 'K8s-deployment.yaml'
+  - stage: OWASP
+    jobs:
+      - job: ZAP_DAST_Scan_Job
+        steps:
+        - script: |
+            wget https://github.com/zaproxy/zaproxy/releases/download/v2.16.0/ZAP_2.16.0_Linux.tar.gz
+            tar -xvf ZAP_2.16.0_Linux.tar.gz
+            cd ZAP_2.16.0
+            ./zap.sh -cmd -quickurl https://www.example.com -quickprogress -quickout /home/vsts/work/1/a/zap_report.html 
+          displayName: "Integrate DAST using OWASP ZAP in ADO DevSecOps Pipeline"
+
+        - task: PublishBuildArtifacts@1
+          inputs:
+            pathToPublish: '$(Build.ArtifactStagingDirectory)'
+            artifactName: zap_report.html
